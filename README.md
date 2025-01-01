@@ -13,6 +13,8 @@
 
 <!-- Plugin description -->
 
+## Description
+
 This plugin provides autocomplete for EUI HTML tags in IntelliJ IDEA.
 
 <!-- Plugin description end -->
