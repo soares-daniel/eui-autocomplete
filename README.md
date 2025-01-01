@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="140" src="https://github.com/soares-daniel/eui-autocomplete/tree/main/src/main/resources/META-INF/pluginIcon.svg" alt="Icon"/>
+  <img width="140" src="https://eui.ecdevops.eu/eui-showcase-ux-components-18.x/assets/images/common/eui-logo.svg" alt="Icon"/>
   <h2 align="center">EUI Autocomplete</h2>
   <p align="center">  Simple <a href="https://eui.ecdevops.eu/">EUI</a> autocomplete plugin for IntelliJ IDEA.</p>
 </div>
