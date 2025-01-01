@@ -11,6 +11,12 @@
 
 </div>
 
+<!-- Plugin description -->
+
+This plugin provides autocomplete for EUI HTML tags in IntelliJ IDEA.
+
+<!-- Plugin description end -->
+
 ## Installation
 
 - Using the IDE built-in plugin system:
@@ -29,7 +35,6 @@
 
   Download the [latest release](https://github.com/soares-daniel/eui-autocomplete/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
 
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
