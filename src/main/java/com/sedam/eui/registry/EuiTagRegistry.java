@@ -23,16 +23,58 @@ public class EuiTagRegistry {
         log.info("Building EUI registry");
         List<String> euiComponentPackages = EuiComponentResolver.getEuiComponentPackages(project);
         log.info("EUI component packages: {}", euiComponentPackages);
+
         List<EuiComponent> components = new ArrayList<>();
         for (String euiComponentPackage : euiComponentPackages) {
             components.addAll(EuiDocsParser.parseComponents(euiComponentPackage));
         }
 
-        components.forEach(component -> registry.put(component.selector(), component));
+        // Process components and normalize selectors
+        for (EuiComponent component : components) {
+            String selector = component.selector();
+            if (selector.contains(",")) {
+                // Split multiple selectors
+                String[] selectors = selector.split(",");
+                for (String singleSelector : selectors) {
+                    addComponentToRegistry(singleSelector.trim(), component);
+                }
+            } else {
+                addComponentToRegistry(selector.trim(), component);
+            }
+        }
+    }
+
+    private static void addComponentToRegistry(String selector, EuiComponent component) {
+        // For global selectors like [exampleSelector], apply to all tags
+        if (selector.startsWith("[") && selector.endsWith("]")) {
+            registry.put(selector, component);
+        } else {
+            registry.put(selector, component);
+        }
     }
 
     public static Map<String, EuiComponent> getRegistry() {
         return registry;
+    }
+
+    public static Map<String, EuiComponent> getMainComponents() {
+        Map<String, EuiComponent> mainComponents = new HashMap<>();
+        for (String selector : registry.keySet()) {
+            if (!selector.contains("[") || selector.startsWith("[") && selector.endsWith("]")) {
+                mainComponents.put(selector, registry.get(selector));
+            }
+        }
+        return mainComponents;
+    }
+
+    public static Map<String, EuiComponent> getInnerComponents() {
+        Map<String, EuiComponent> innerComponents = new HashMap<>();
+        for (String selector : registry.keySet()) {
+            if (selector.contains("[") && !selector.startsWith("[")) {
+                innerComponents.put(selector, registry.get(selector));
+            }
+        }
+        return innerComponents;
     }
 
     protected static void clearRegistry() {
