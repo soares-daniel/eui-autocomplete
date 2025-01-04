@@ -17,6 +17,12 @@
 
 This plugin provides autocomplete for EUI HTML tags in IntelliJ IDEA.
 
+## Features
+
+- Autocomplete for EUI HTML tags
+- Autocomplete for EUI properties
+- Documentation for EUI HTML tags and properties (coming soon)
+
 <!-- Plugin description end -->
 
 ## Installation
