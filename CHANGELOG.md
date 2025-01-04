@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.0.5] - 2025-01-04
+
+Doc update & Renaming of menu item
+
 ## [0.0.4] - 2025-01-04
 
 New Features
@@ -13,5 +17,6 @@ New Features
 - Inner tags autocomplete
 - Handling of Input/Output properties
 
-[Unreleased]: https://github.com/soares-daniel/eui-autocomplete/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/soares-daniel/eui-autocomplete/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/soares-daniel/eui-autocomplete/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/soares-daniel/eui-autocomplete/commits/v0.0.4
