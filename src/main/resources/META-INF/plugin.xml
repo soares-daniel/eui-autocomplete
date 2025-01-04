@@ -36,8 +36,8 @@
     <action
             id="com.sedam.eui.RefreshEuiRegistry"
             class="com.sedam.eui.action.RefreshEuiRegistryAction"
-            text="Refresh EUI Registry"
-            description="Refresh EUI Registry"
+            text="Reload EUI Autocomplete"
+            description="Reload EUI Autocomplete"
             icon="com.intellij.icons.ExpUiIcons.General.Refresh">
 
       <synonym text="EUI"/>

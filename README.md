@@ -23,6 +23,11 @@ This plugin provides autocomplete for EUI HTML tags in IntelliJ IDEA.
 - Autocomplete for EUI properties
 - Documentation for EUI HTML tags and properties (coming soon)
 
+## Usage
+
+The plugin will automatically look for your node_modules folder and create the autocompletion as well as recognize (coming soon) your components independent of your version.
+When you perform an update of your EUI version, for now you can reload the plugin functionality by clicking on the `Reload EUI Autocomplete` button in the `Tools` menu.
+
 <!-- Plugin description end -->
 
 ## Installation
