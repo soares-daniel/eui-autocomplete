@@ -38,7 +38,7 @@
             class="com.sedam.eui.action.RefreshEuiRegistryAction"
             text="Reload EUI Autocomplete"
             description="Reload EUI Autocomplete"
-            icon="com.intellij.icons.ExpUiIcons.General.Refresh">
+            icon="AllIcons.General.Refresh">
 
       <synonym text="EUI"/>
 

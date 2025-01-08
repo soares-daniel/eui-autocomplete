@@ -1,7 +1,7 @@
 package com.sedam.eui.registry;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.sedam.eui.exception.EuiNotFoundException;
 
@@ -15,29 +15,73 @@ public class EuiComponentResolver {
     private static String euiEclPackageUrl = null;
 
     /**
+     * Recursively searches for the `node_modules` directory within the project.
+     *
+     * @param startDir The starting directory for the search.
+     * @return The `node_modules` directory as a VirtualFile, or null if not found.
+     */
+    private static VirtualFile findNodeModulesRecursively(VirtualFile startDir) {
+        if (startDir == null) return null;
+
+        VirtualFile nodeModules = startDir.findChild("node_modules");
+        if (nodeModules != null) {
+            return nodeModules;
+        }
+
+        for (VirtualFile child : startDir.getChildren()) {
+            if (child.isDirectory()) {
+                VirtualFile result = findNodeModulesRecursively(child);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds the EUI library in the project.
+     *
+     * @param project The IntelliJ project instance.
+     * @return The VirtualFile for the EUI component package, or null if not found.
+     */
+    public static VirtualFile getEuiVirtualFile(Project project) {
+        String basePath = project.getBasePath();
+
+        if (basePath != null) {
+            LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
+            VirtualFile baseDir = localFileSystem.findFileByPath(basePath);
+
+            if (baseDir != null) {
+                VirtualFile nodeModules = findNodeModulesRecursively(baseDir);
+                if (nodeModules != null) {
+                    return nodeModules.findChild("@eui");
+
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get the EUI components package
      * @param project Project
      */
     public static void findEuiModule(Project project) throws EuiNotFoundException {
-        ProjectRootManager.getInstance(project).getFileIndex().iterateContent(fileOrDir -> {
-            if (fileOrDir.isDirectory() && fileOrDir.getName().equals("node_modules")) {
-                VirtualFile[] children = fileOrDir.getChildren();
-                for (VirtualFile child : children) {
-                    if (child.getName().equals("@eui")) {
-                        var componentsFolder = child.findChild("components");
-                        if (componentsFolder != null) {
-                            euiComponentsPackageUrl = componentsFolder.getPath();
-                        }
-                        var eclFolder = child.findChild("ecl");
-                        if (eclFolder != null) {
-                            euiEclPackageUrl = eclFolder.getPath();
-                        }
-                        return false; // Stop iterating
-                    }
-                }
+        VirtualFile euiModule = getEuiVirtualFile(project);
+
+        if (euiModule == null) {
+            throw new EuiNotFoundException();
+        }
+
+        for (VirtualFile child : euiModule.getChildren()) {
+            if (child.getName().equals("components")) {
+                euiComponentsPackageUrl = child.getPath();
+            } else if (child.getName().equals("ecl")) {
+                euiEclPackageUrl = child.getPath();
             }
-            return true;
-        });
+        }
 
         if (euiComponentsPackageUrl == null || euiEclPackageUrl == null) {
             throw new EuiNotFoundException();

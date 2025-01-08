@@ -24,9 +24,7 @@ public class EuiStartupActivity implements ProjectActivity {
                     .createNotification("Failed to read EUI documentation", "", NotificationType.ERROR)
                     .notify(project);
         } catch (EuiNotFoundException ex) {
-            NotificationGroupManager.getInstance().getNotificationGroup("EUI Plugin")
-                    .createNotification("EUI is not used in this project.", "", NotificationType.ERROR)
-                    .notify(project);
+            // Ignore, as missing EUI components might not be an error
         }
         return null;
     }
