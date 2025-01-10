@@ -10,11 +10,9 @@ import org.jetbrains.annotations.Nullable;
 public class EuiAttributeDescriptor implements XmlAttributeDescriptor {
 
     private final String name;
-    private final String type;
 
-    public EuiAttributeDescriptor(String name, String type) {
+    public EuiAttributeDescriptor(String name) {
         this.name = name;
-        this.type = type;
     }
 
     @Override

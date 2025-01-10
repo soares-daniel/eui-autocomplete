@@ -1,6 +1,5 @@
 package com.sedam.eui.descriptor;
 
-import com.intellij.openapi.util.NlsSafe;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlTag;
@@ -56,11 +55,11 @@ public class EuiTagDescriptor implements XmlElementDescriptor {
 
             // Convert inputs and outputs to XmlAttributeDescriptors
             List<XmlAttributeDescriptor> descriptors = inputs.stream()
-                    .map(input -> new EuiAttributeDescriptor("[" + input.name() + "]", input.type()))
+                    .map(input -> new EuiAttributeDescriptor("[" + input.name() + "]"))
                     .collect(Collectors.toList());
 
             descriptors.addAll(outputs.stream()
-                    .map(output -> new EuiAttributeDescriptor("(" + output.name() + ")", output.type()))
+                    .map(output -> new EuiAttributeDescriptor("(" + output.name() + ")"))
                     .toList());
 
             return descriptors.toArray(new XmlAttributeDescriptor[0]);
@@ -76,12 +75,12 @@ public class EuiTagDescriptor implements XmlElementDescriptor {
         if (component != null) {
             for (EuiComponentProperty input : component.inputs()) {
                 if (("[" + input.name() + "]").equals(attributeName)) {
-                    return new EuiAttributeDescriptor(attributeName, input.type());
+                    return new EuiAttributeDescriptor(attributeName);
                 }
             }
             for (EuiComponentProperty output : component.outputs()) {
                 if (("(" + output.name() + ")").equals(attributeName)) {
-                    return new EuiAttributeDescriptor(attributeName, output.type());
+                    return new EuiAttributeDescriptor(attributeName);
                 }
             }
         }
@@ -106,7 +105,7 @@ public class EuiTagDescriptor implements XmlElementDescriptor {
     }
 
     @Override
-    public @NlsSafe String getName() {
+    public String getName() {
         return "";
     }
 

@@ -15,27 +15,32 @@ public class EuiComponentResolver {
     private static String euiEclPackageUrl = null;
 
     /**
-     * Recursively searches for the `node_modules` directory within the project.
+     * Iteratively searches for the `node_modules` directory within the project.
      *
      * @param startDir The starting directory for the search.
      * @return The `node_modules` directory as a VirtualFile, or null if not found.
      */
-    private static VirtualFile findNodeModulesRecursively(VirtualFile startDir) {
+    private static VirtualFile findNodeModules(VirtualFile startDir) {
         if (startDir == null) return null;
 
-        VirtualFile nodeModules = startDir.findChild("node_modules");
-        if (nodeModules != null) {
-            return nodeModules;
-        }
+        List<VirtualFile> directoriesToSearch = new ArrayList<>();
+        directoriesToSearch.add(startDir);
 
-        for (VirtualFile child : startDir.getChildren()) {
-            if (child.isDirectory()) {
-                VirtualFile result = findNodeModulesRecursively(child);
-                if (result != null) {
-                    return result;
+        while (!directoriesToSearch.isEmpty()) {
+            VirtualFile currentDir = directoriesToSearch.remove(0);
+            VirtualFile nodeModules = currentDir.findChild("node_modules");
+
+            if (nodeModules != null) {
+                return nodeModules;
+            }
+
+            for (VirtualFile child : currentDir.getChildren()) {
+                if (child.isDirectory()) {
+                    directoriesToSearch.add(child);
                 }
             }
         }
+
         return null;
     }
 
@@ -53,7 +58,7 @@ public class EuiComponentResolver {
             VirtualFile baseDir = localFileSystem.findFileByPath(basePath);
 
             if (baseDir != null) {
-                VirtualFile nodeModules = findNodeModulesRecursively(baseDir);
+                VirtualFile nodeModules = findNodeModules(baseDir);
                 if (nodeModules != null) {
                     return nodeModules.findChild("@eui");
 
